@@ -26,7 +26,10 @@ jobs:
       with:
           java-version: 11
     - name: Build with Maven
-      run: mvn -B package --file pom.xml
-
+      run: cd ../Hostname-Example
+    - name: run a script
+      run: echo 'll'
+    - name: Build with Maven
+      run: mvn clean package -f pom.xml
 
        
