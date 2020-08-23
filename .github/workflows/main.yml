@@ -16,3 +16,12 @@ jobs:
         run: mvn -B package --file pom.xml
       - name: Docker build
         run: docker build -t hostname:v1.0 .
+      - uses: Azure/docker-login@v1
+        with:
+         login-server: hostname.azurecr.io
+         username: ${{ secrets.ACR_USERNAME }}
+         password: ${{ secrets.ACR_PASSWORD }}
+    
+      - run: |
+         docker build . -t hostname.azurecr.io/hostname:${{ github.sha }}
+         docker push hostname.azurecr.io/hostname:${{ github.sha }}
