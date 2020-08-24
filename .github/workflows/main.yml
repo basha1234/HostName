@@ -34,8 +34,9 @@ jobs:
       - uses: Azure/k8s-create-secret@v1
         with:
          container-registry-url: hostname.azurecr.io
-         container-registry-username: hostname
-         container-registry-password: b24TLdzrIbjnp/hC4HDRH4QsVluarQJ2
+         container-registry-username: ${{ secrets.ACR_USERNAME }}
+         container-registry-password: ${{ secrets.ACR_PASSWORD }}
+         secret-name: k8s-secret
       - uses: Azure/k8s-deploy@v1
         with:
          manifests: |
@@ -43,4 +44,6 @@ jobs:
           manifests/hostname-service.yaml
          images: |
           hostname.azurecr.io/hostname:${{ github.sha }}
+         imagepullsecrets: |
+          k8s-secret
         
