@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hostnamedemo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hostnamedemo
+  template:
+    metadata:
+      labels:
+        app: hostnamedemo
+    spec:
+      containers:
+        - name: app
+          image: hostname.azurecr.io/hostname:82e18c30d4b6b12f94a9fb0bd3a28bb5408d02e9
+          ports:
+            - containerPort: 8080
+          imagePullPolicy: Always
