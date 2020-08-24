@@ -25,3 +25,22 @@ jobs:
       - run: |
          docker build . -t hostname.azurecr.io/hostname:${{ github.sha }}
          docker push hostname.azurecr.io/hostname:${{ github.sha }}
+      - uses: Azure/aks-set-context@v1
+        with:
+         creds: '${{ secrets.AZURE_CREDENTIALS }}'
+         cluster-name: hostname
+         resource-group: Demo-HostName
+        
+      - uses: Azure/k8s-create-secret@v1
+        with:
+         container-registry-url: hostname.azurecr.io
+         container-registry-username: hostname
+         container-registry-password: b24TLdzrIbjnp/hC4HDRH4QsVluarQJ2
+      - uses: Azure/k8s-deploy@v1
+        with:
+         manifests: |
+          manifests/hostname-deployment.yaml
+          manifests/hostname-service.yaml
+         images: |
+          hostname.azurecr.io/hostname:${{ github.sha }}
+        
