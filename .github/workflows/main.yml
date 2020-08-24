@@ -30,7 +30,10 @@ jobs:
          creds: '${{ secrets.AZURE_CREDENTIALS }}'
          cluster-name: hostname
          resource-group: Demo-HostName
-        
+      - uses: azure/k8s-actions/setup-kubectl@master
+        with:
+         version: '<version>' # default is latest stable
+         id: install
       - uses: Azure/k8s-create-secret@v1
         with:
          container-registry-url: hostname.azurecr.io
